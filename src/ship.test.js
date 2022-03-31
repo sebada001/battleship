@@ -19,8 +19,6 @@ test('not sink boat', () => {
     expect(patrolBoat.isSunk()).toBe(`Ship has been hit 1 times! Not yet sunk!`);
 });
 
-
-
 function hitter(){
     patrolBoat.hit('A1');
     return patrolBoat.isSunk();
@@ -29,7 +27,3 @@ function hitter(){
 test('sink boat 1', () => {
     expect(hitter()).toBe(`Ship has been hit 2 times! It sunk!`);
 });
-
-// test('sink boat 2', () => {
-//     expect(patrolBoat.isSunk()).toBe('Ship is sunk!');
-// });

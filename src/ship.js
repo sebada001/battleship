@@ -31,4 +31,4 @@ const mockBoard =
 };
 
 
-export {shipFactory, mockBoard}
+export { shipFactory, mockBoard }
