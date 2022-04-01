@@ -12,11 +12,11 @@ const gameBoard = () =>{
         'H1': "water", 'H2': "water", 'H3': "water", 'H4': "water", 'H5': "water", 'H6': "water", 'H7': "water", 'H8': "water",  
     };
 
-    const carrier = shipFactory(5, 'Carrier');
-    const battleship = shipFactory(4, 'Battleship');
-    const destroyer = shipFactory(3, 'Destroyer');
-    const submarine = shipFactory(3, 'Submarine');
-    const patrolBoat = shipFactory(2, 'Patrol Boat');
+    const carrier = shipFactory(5, 'carrier');
+    const battleship = shipFactory(4, 'battleship');
+    const destroyer = shipFactory(3, 'destroyer');
+    const submarine = shipFactory(3, 'submarine');
+    const patrolBoat = shipFactory(2, 'patrolBoat');
 
     const ships = [carrier, battleship, destroyer, submarine, patrolBoat];
 
@@ -24,26 +24,32 @@ const gameBoard = () =>{
         coordinates.forEach(coord => boardObj[coord] = ship.name);
     };
 
-    return{placeShip}
+    const receiveAttack = (coordinate) =>{
+        if(coordinate != 'water' && coordinate != 'hit'){
+            ships.forEach(ship => {
+                if(ship.name == boardObj[coord]){
+                    ship.hit();
+                };
+            });
+            hitSpot(coordinate);
+        }else if(coordinate.includes('hit')){
+            return
+        }else{
+            hitWater(coordinate);
+        };
+    };
+
+    const hitSpot = (coordinate) =>{ 
+        boardObj[coordinate] += ' hit';
+    };
+
+    const returnBoard = () =>{
+        return boardObj;
+    };
+
+    return{ placeShip, receiveAttack, returnBoard }
 
 };
 
+export { gameBoard };
 
-// const shipFactory = (length, name) =>{
-//     let shotsReceived = 0;
-//     const hit = (coordinate) => {
-//         mockBoard.coordinate = true;
-//         shotsReceived ++;
-//         isSunk();
-//         return `${coordinate} has been hit!`
-//     };
-//     const isSunk = () => {
-//         if(shotsReceived >= length){
-//             return `Ship has been hit ${shotsReceived} times! It sunk!`
-//         }
-//         else{
-//             return `Ship has been hit ${shotsReceived} times! Not yet sunk!`
-//         }
-//     };
-//     return{length, name, hit, isSunk}
-// };
