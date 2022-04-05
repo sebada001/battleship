@@ -20,14 +20,22 @@ const gameBoard = () =>{
 
     const ships = [carrier, battleship, destroyer, submarine, patrolBoat];
 
-    const placeShip = (coordinates, ship) =>{
-        coordinates.forEach(coord => boardObj[coord] = ship.name);
+    const placeShip = (coordinates, shipIndex) =>{
+        let warning = '';
+        coordinates.forEach(coord => {
+            if(boardObj[coord] == 'water') {
+                boardObj[coord] += (' ' +ships[shipIndex].name);
+            }else{
+                warning = 'repeated spot';
+            }
+        });
+        return warning
     };
 
     const receiveAttack = (coordinate) =>{
-        if(coordinate != 'water' && coordinate != 'hit'){
+        if(coordinate != 'water' && !coordinate.includes('hit')){
             ships.forEach(ship => {
-                if(ship.name == boardObj[coord]){
+                if(boardObj[coordinate].includes(ship.name)){
                     ship.hit();
                 };
             });
@@ -35,19 +43,28 @@ const gameBoard = () =>{
         }else if(coordinate.includes('hit')){
             return
         }else{
-            hitWater(coordinate);
+            hitSpot(coordinate);
         };
     };
 
-    const hitSpot = (coordinate) =>{ 
-        boardObj[coordinate] += ' hit';
+    const hitSpot = (coordinate) =>{
+            boardObj[coordinate] += ' hit';
     };
 
     const returnBoard = () =>{
         return boardObj;
     };
 
-    return{ placeShip, receiveAttack, returnBoard }
+    const returnShips = () =>{
+        return ships;
+    };
+
+    const allSunk = () =>{
+        const arraySunkStatus = (eachShip) => eachShip.showSunk();
+        return ships.every(arraySunkStatus);
+    };
+
+    return { placeShip, receiveAttack, returnBoard, returnShips, allSunk }
 
 };
 
