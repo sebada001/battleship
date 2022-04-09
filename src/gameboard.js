@@ -31,12 +31,16 @@ const gameBoard = () =>{
         });
         return warning
     };
+    function shipHitMessage(coordinate, shipName){
+        return `${shipName} has been hit at ${coordinate}!`
+    };
 
     const receiveAttack = (coordinate) =>{
         if(coordinate != 'water' && !coordinate.includes('hit')){
             ships.forEach(ship => {
                 if(boardObj[coordinate].includes(ship.name)){
                     ship.hit();
+                    shipHitMessage(coordinate, ship.name);
                 };
             });
             hitSpot(coordinate);
