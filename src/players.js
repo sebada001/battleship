@@ -1,17 +1,23 @@
 import { gameBoard } from "./gameboard.js";
 
-const humanObj = {
-    myTurn: true,
-    myBoard: gameBoard(),
-    turnSwitch: (player)=> myTurnSwitch(player),
+const humanFactory = (name) =>{
+    let myTurn = true;
+    let myBoard = gameBoard();
+    const turnSwitch = (player) => myTurnSwitch(player);
+    const showTurn = () => myTurn;
+    const showBoard = () => myBoard;
+    return {showBoard, turnSwitch, name, showTurn}
 };
 
-const computerObj = {
-    myTurn: false,
-    myBoard: gameBoard(),
-    movePool: getMovePool(),
-    turnSwitch: (player)=> myTurnSwitch(player),
-    nextMove: (movePool, computerObj)=> computerMoveAI(movePool, computerObj),
+const computerFactory = () =>{
+    let myTurn = false;
+    let myBoard = gameBoard();
+    let movePool = getMovePool();
+    const turnSwitch = (player)=> myTurnSwitch(player);
+    const nextMove = (movePool, computerObj)=> computerMoveAI(movePool, computerObj);
+    const showTurn = () => myTurn;
+    const showBoard = () => myBoard;
+    return {turnSwitch, nextMove, showTurn, showBoard, movePool }
 };
 
 function computerMoveAI(movePool, self){
@@ -46,4 +52,4 @@ function myTurnSwitch(player){
     player.myTurn = player.myTurn == false ? player.myTurn = true : player.myTurn = false;
 };
 
-export {computerObj, humanObj, computerMoveAI}
+export {computerFactory, computerMoveAI, humanFactory}

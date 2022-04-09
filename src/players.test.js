@@ -1,7 +1,10 @@
-import { computerMoveAI, computerObj, humanObj } from "./players.js";
+import { computerMoveAI, computerFactory, humanFactory } from "./players.js";
+
+const humanObj = humanFactory('bread');
+const computerObj = computerFactory();
 
 function tester(p){
-    return p.myTurn;
+    return p.showTurn();
 };
 
 function tester2(p){
@@ -18,11 +21,11 @@ test('switch turn 2', () => {
 });
 
 test('board of player 1', ()=>{
-    expect(computerObj.myBoard.returnBoard()['A1']).toBe('water');
+    expect(computerObj.showBoard().returnBoard()['A1']).toBe('water');
 });
 
 test('board of player 2', ()=>{
-    expect(humanObj.myBoard.returnBoard()['A1']).toBe('water');
+    expect(humanObj.showBoard().returnBoard()['A1']).toBe('water');
 });
 
 test('computer move pool', ()=>{
@@ -33,7 +36,7 @@ function tester3(){
     for(let i = 0; i<20; i++){
         computerObj.nextMove(computerObj.movePool, computerObj);
     };
-    return computerObj.movePool.length
+    return computerObj.movePool.length;
 }
 
 test('computer move length', ()=>{
