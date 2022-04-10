@@ -110,13 +110,53 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 
 /***/ }),
 
+/***/ "./src/game.js":
+/*!*********************!*\
+  !*** ./src/game.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"gameMaker\": () => (/* binding */ gameMaker)\n/* harmony export */ });\n/* harmony import */ var _players_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./players.js */ \"./src/players.js\");\n\n\nfunction gameMaker(playerName){\n    const humanPlayer = (0,_players_js__WEBPACK_IMPORTED_MODULE_0__.humanFactory)(playerName);\n    const AI = (0,_players_js__WEBPACK_IMPORTED_MODULE_0__.computerFactory)();\n    placeShips(humanPlayer);\n    placeShips(AI);\n    return {humanPlayer, AI};\n};\n\nfunction placeShips(player){\n    player.myBoard.placeShip(['A1', 'A2', 'A3', 'A4', 'A5'], 0);\n    player.myBoard.placeShip(['C1', 'C2', 'C3', 'C4'], 1);\n    player.myBoard.placeShip(['F5', 'G5', 'H5'], 2);\n    player.myBoard.placeShip(['H1', 'H2', 'H3'], 3);\n    player.myBoard.placeShip(['C7', 'C8'], 4);\n};\n\n\n\n\n\n//# sourceURL=webpack://battleship/./src/game.js?");
+
+/***/ }),
+
+/***/ "./src/gameboard.js":
+/*!**************************!*\
+  !*** ./src/gameboard.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"gameBoard\": () => (/* binding */ gameBoard)\n/* harmony export */ });\n/* harmony import */ var _ship_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ship.js */ \"./src/ship.js\");\n\n\nconst gameBoard = () =>{\n    const boardObj = \n    {   'A1': \"water\", 'A2': \"water\", 'A3': \"water\", 'A4': \"water\", 'A5': \"water\", 'A6': \"water\", 'A7': \"water\", 'A8': \"water\",\n        'B1': \"water\", 'B2': \"water\", 'B3': \"water\", 'B4': \"water\", 'B5': \"water\", 'B6': \"water\", 'B7': \"water\", 'B8': \"water\",\n        'C1': \"water\", 'C2': \"water\", 'C3': \"water\", 'C4': \"water\", 'C5': \"water\", 'C6': \"water\", 'C7': \"water\", 'C8': \"water\", \n        'D1': \"water\", 'D2': \"water\", 'D3': \"water\", 'D4': \"water\", 'D5': \"water\", 'D6': \"water\", 'D7': \"water\", 'D8': \"water\", \n        'E1': \"water\", 'E2': \"water\", 'E3': \"water\", 'E4': \"water\", 'E5': \"water\", 'E6': \"water\", 'E7': \"water\", 'E8': \"water\", \n        'F1': \"water\", 'F2': \"water\", 'F3': \"water\", 'F4': \"water\", 'F5': \"water\", 'F6': \"water\", 'F7': \"water\", 'F8': \"water\", \n        'G1': \"water\", 'G2': \"water\", 'G3': \"water\", 'G4': \"water\", 'G5': \"water\", 'G6': \"water\", 'G7': \"water\", 'G8': \"water\", \n        'H1': \"water\", 'H2': \"water\", 'H3': \"water\", 'H4': \"water\", 'H5': \"water\", 'H6': \"water\", 'H7': \"water\", 'H8': \"water\",  \n    };\n\n    const carrier = (0,_ship_js__WEBPACK_IMPORTED_MODULE_0__.shipFactory)(5, 'carrier');\n    const battleship = (0,_ship_js__WEBPACK_IMPORTED_MODULE_0__.shipFactory)(4, 'battleship');\n    const destroyer = (0,_ship_js__WEBPACK_IMPORTED_MODULE_0__.shipFactory)(3, 'destroyer');\n    const submarine = (0,_ship_js__WEBPACK_IMPORTED_MODULE_0__.shipFactory)(3, 'submarine');\n    const patrolBoat = (0,_ship_js__WEBPACK_IMPORTED_MODULE_0__.shipFactory)(2, 'patrolBoat');\n\n    const ships = [carrier, battleship, destroyer, submarine, patrolBoat];\n\n    const placeShip = (coordinates, shipIndex) =>{\n        let warning = '';\n        coordinates.forEach(coord => {\n            if(boardObj[coord] == 'water') {\n                boardObj[coord] += (' ' +ships[shipIndex].name);\n            }else{\n                warning = 'repeated spot';\n            }\n        });\n        return warning\n    };\n    function shipHitMessage(coordinate, shipName){\n        return `${shipName} has been hit at ${coordinate}!`\n    };\n\n    const receiveAttack = (coordinate) =>{\n        if(coordinate != 'water' && !coordinate.includes('hit')){\n            ships.forEach(ship => {\n                if(boardObj[coordinate].includes(ship.name)){\n                    ship.hit();\n                    shipHitMessage(coordinate, ship.name);\n                };\n            });\n            hitSpot(coordinate);\n        }else if(coordinate.includes('hit')){\n            return\n        }else{\n            hitSpot(coordinate);\n        };\n    };\n\n    const hitSpot = (coordinate) =>{\n            boardObj[coordinate] += ' hit';\n    };\n\n    const returnBoard = () =>{\n        return boardObj;\n    };\n\n    const returnShips = () =>{\n        return ships;\n    };\n\n    const allSunk = () =>{\n        const arraySunkStatus = (eachShip) => eachShip.showSunk();\n        return ships.every(arraySunkStatus);\n    };\n\n    return { placeShip, receiveAttack, returnBoard, returnShips, allSunk }\n\n};\n\n\n\n\n\n//# sourceURL=webpack://battleship/./src/gameboard.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n\n\nconst title = document.querySelector(\"h1\");\n\ntitle.classList.add('hello');\n\n//# sourceURL=webpack://battleship/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style.css */ \"./src/style.css\");\n/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game */ \"./src/game.js\");\n\n\n\nconst players = (0,_game__WEBPACK_IMPORTED_MODULE_1__.gameMaker)('pepe');\nconst title = document.querySelector(\"h1\");\ntitle.classList.add('hello');\n\nconsole.table(players['humanPlayer'].myBoard.returnBoard())\n\n\n\n\n//# sourceURL=webpack://battleship/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/players.js":
+/*!************************!*\
+  !*** ./src/players.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"computerFactory\": () => (/* binding */ computerFactory),\n/* harmony export */   \"computerMoveAI\": () => (/* binding */ computerMoveAI),\n/* harmony export */   \"humanFactory\": () => (/* binding */ humanFactory)\n/* harmony export */ });\n/* harmony import */ var _gameboard_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameboard.js */ \"./src/gameboard.js\");\n\n\nconst humanFactory = (name) =>{\n    let myTurn = true;\n    let myBoard = (0,_gameboard_js__WEBPACK_IMPORTED_MODULE_0__.gameBoard)();\n    const turnSwitch = (player) => myTurnSwitch(player);\n    const showTurn = () => myTurn;\n    return {myBoard, turnSwitch, name, showTurn}\n};\n\nconst computerFactory = () =>{\n    let myTurn = false;\n    let myBoard = (0,_gameboard_js__WEBPACK_IMPORTED_MODULE_0__.gameBoard)();\n    let movePool = getMovePool();\n    const turnSwitch = (player)=> myTurnSwitch(player);\n    const nextMove = (movePool, computerObj)=> computerMoveAI(movePool, computerObj);\n    const showTurn = () => myTurn;\n    return {turnSwitch, nextMove, showTurn, myBoard, movePool }\n};\n\nfunction computerMoveAI(movePool, self){\n    let moveNumber = getMove(movePool);\n    let move = movePool[moveNumber];\n    self['movePool'].splice(moveNumber, 1);\n    return move;\n};\n\nfunction getMovePool(){\n    const movePool = ['A1','A2','A3','A4','A5','A6','A7','A8',\n                      'B1','B2','B3','B4','B5','B6','B7','B8',\n                      'C1','C2','C3','C4','C5','C6','C7','C8',\n                      'D1','D2','D3','D4','D5','D6','D7','D8',\n                      'E1','E2','E3','E4','E5','E6','E7','E8',\n                      'F1','F2','F3','F4','F5','F6','F7','F8',\n                      'G1','G2','G3','G4','G5','G6','G7','G8',\n                      'H1','H2','H3','H4','H5','H6','H7','H8']\n    return movePool;\n};\n\nfunction getMove(movePool){\n    let moveNumber = getRandomNumberBetween(0, movePool.length-1);\n    return moveNumber;  \n};\n\nfunction getRandomNumberBetween(min,max){\n    return Math.floor(Math.random()*(max-min+1)+min);\n};\n\nfunction myTurnSwitch(player){\n    player.myTurn = player.myTurn == false ? player.myTurn = true : player.myTurn = false;\n};\n\n\n\n\n//# sourceURL=webpack://battleship/./src/players.js?");
+
+/***/ }),
+
+/***/ "./src/ship.js":
+/*!*********************!*\
+  !*** ./src/ship.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"shipFactory\": () => (/* binding */ shipFactory)\n/* harmony export */ });\n\nconst shipFactory = (length, name) =>{\n    let shotsReceived = 0;\n    let sunkStatus = false;\n    const showHits = () =>{\n        return shotsReceived;\n    };\n    const hit = () => {\n        shotsReceived ++;\n        isSunk();\n    };\n    const showSunk = () =>{\n        return sunkStatus;\n    };\n    const isSunk = () => {\n        if(shotsReceived == length){\n            sunkStatus = true;\n        };\n    };\n    return{length, name, hit, isSunk, showHits, showSunk}\n};\n\n\n\n//# sourceURL=webpack://battleship/./src/ship.js?");
 
 /***/ })
 

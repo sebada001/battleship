@@ -5,8 +5,7 @@ const humanFactory = (name) =>{
     let myBoard = gameBoard();
     const turnSwitch = (player) => myTurnSwitch(player);
     const showTurn = () => myTurn;
-    const showBoard = () => myBoard;
-    return {showBoard, turnSwitch, name, showTurn}
+    return {myBoard, turnSwitch, name, showTurn}
 };
 
 const computerFactory = () =>{
@@ -16,8 +15,7 @@ const computerFactory = () =>{
     const turnSwitch = (player)=> myTurnSwitch(player);
     const nextMove = (movePool, computerObj)=> computerMoveAI(movePool, computerObj);
     const showTurn = () => myTurn;
-    const showBoard = () => myBoard;
-    return {turnSwitch, nextMove, showTurn, showBoard, movePool }
+    return {turnSwitch, nextMove, showTurn, myBoard, movePool }
 };
 
 function computerMoveAI(movePool, self){

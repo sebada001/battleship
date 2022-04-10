@@ -21,11 +21,11 @@ test('switch turn 2', () => {
 });
 
 test('board of player 1', ()=>{
-    expect(computerObj.showBoard().returnBoard()['A1']).toBe('water');
+    expect(computerObj.myBoard.returnBoard()['A1']).toBe('water');
 });
 
 test('board of player 2', ()=>{
-    expect(humanObj.showBoard().returnBoard()['A1']).toBe('water');
+    expect(humanObj.myBoard.returnBoard()['A1']).toBe('water');
 });
 
 test('computer move pool', ()=>{
