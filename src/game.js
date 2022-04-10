@@ -1,10 +1,15 @@
 import {computerFactory, humanFactory} from './players.js';
+import{renderComputerBoard, renderHumanBoard} from './DOM.js';
 
 function gameMaker(playerName){
     const humanPlayer = humanFactory(playerName);
     const AI = computerFactory();
     placeShips(humanPlayer);
     placeShips(AI);
+    // console.log(humanPlayer.myBoard.returnBoard())
+    // console.log(AI.myBoard.returnBoard())
+    renderHumanBoard(humanPlayer.myBoard.returnBoard());
+    renderComputerBoard(AI.myBoard.returnBoard());
     return {humanPlayer, AI};
 };
 
@@ -15,7 +20,5 @@ function placeShips(player){
     player.myBoard.placeShip(['H1', 'H2', 'H3'], 3);
     player.myBoard.placeShip(['C7', 'C8'], 4);
 };
-
-
 
 export{gameMaker}

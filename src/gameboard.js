@@ -1,4 +1,5 @@
 import { shipFactory } from "./ship.js";
+import { renderHumanBoard } from "./DOM.js";
 
 const gameBoard = () =>{
     const boardObj = 

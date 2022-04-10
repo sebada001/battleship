@@ -1,3 +1,82 @@
-.hello {
-  color: red;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(225, 209, 187);
+}
+
+.playground{
+  width: 1160px;
+  height: 580px;
+  background-color: gainsboro;
+  margin-top: 9%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.playground > *{
+  width: 100%;
+  height: 100%;
+}
+
+.player-side{
+  background-color: cadetblue;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.player-side > div{
+  height: 60px;
+  width: 60px;
+  margin: 5px;
+  background-color: white;
+}
+
+.player-side > .water{
+  background-color: rgb(143, 233, 203);
+}
+
+.player-side > .patrolBoat{
+  background-color: bisque;
+}
+
+.player-side > .carrier{
+  background-color: bisque;
+}
+
+.player-side > .battleship{
+  background-color: bisque;
+}
+
+.player-side > .destroyer{
+  background-color: bisque;
+}
+
+.player-side > .submarine{
+  background-color: bisque;
+}
+
+.player-side > .hit{
+  background-color: red;
+}
+
+.computer-side{
+  padding: 10px;
+  background-color: rgb(201, 109, 76);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.computer-side > div{
+  height: 60px;
+  width: 60px;
+  margin: 5px;
+  background-color: white;
 }
