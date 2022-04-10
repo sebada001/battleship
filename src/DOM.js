@@ -1,5 +1,6 @@
 const playerSide = document.querySelector('.player-side');
 const computerSide = document.querySelector('.computer-side');
+const shipArea = document.querySelector('.ship-area');
 
 function renderHumanBoard(obj){
     Object.keys(obj).forEach(key =>{
@@ -21,5 +22,14 @@ function renderComputerBoard(obj){
     });
 };
 
+function renderHumanShips(arr){
+    arr.forEach(ship =>{
+        const shipDiv = document.createElement('div');
+        shipDiv.classList.add(ship.name);
+        shipDiv.textContent = ship.name;
+        shipArea.appendChild(shipDiv);
+    });
+};
 
-export { renderHumanBoard, renderComputerBoard };
+
+export { renderHumanBoard, renderComputerBoard, renderHumanShips };

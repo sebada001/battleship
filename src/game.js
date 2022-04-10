@@ -1,5 +1,5 @@
 import {computerFactory, humanFactory} from './players.js';
-import{renderComputerBoard, renderHumanBoard} from './DOM.js';
+import{renderComputerBoard, renderHumanBoard, renderHumanShips} from './DOM.js';
 
 function gameMaker(playerName){
     const humanPlayer = humanFactory(playerName);
@@ -10,6 +10,7 @@ function gameMaker(playerName){
     // console.log(AI.myBoard.returnBoard())
     renderHumanBoard(humanPlayer.myBoard.returnBoard());
     renderComputerBoard(AI.myBoard.returnBoard());
+    renderHumanShips(humanPlayer.myBoard.returnShips());
     return {humanPlayer, AI};
 };
 

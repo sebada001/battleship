@@ -11,6 +11,25 @@ body{
   background-color: rgb(225, 209, 187);
 }
 
+.ship-area{
+  position: fixed;
+  height: 80px;
+  width: 900px;
+  background-color: rgb(121, 76, 76);
+  top: 0;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+.ship-area > div{
+  background-color: white;
+  height: 45px;
+  width: 90px;
+}
+
 .playground{
   width: 1160px;
   height: 580px;
@@ -78,5 +97,5 @@ body{
   height: 60px;
   width: 60px;
   margin: 5px;
-  background-color: white;
+  background-color: rgb(246, 243, 243);
 }
