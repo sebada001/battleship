@@ -11,6 +11,16 @@ body{
   background-color: rgb(225, 209, 187);
 }
 
+.toggle{
+  position: fixed;
+  top: 15px;
+  background-color: aliceblue;
+  width: 50px;
+  height: 50px;
+  left: calc(50% - 550px);
+  border-radius: 10px;
+}
+
 .ship-area{
   position: fixed;
   height: 80px;
@@ -104,3 +114,4 @@ body{
 .selected{
   background-color: orange !important;
 }
+

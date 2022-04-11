@@ -40,4 +40,28 @@ const letterCoordinate = function(numberCoord){
     return first+second;
 };
 
-export{lengthObject, numberCoordinate, letterCoordinate}
+const checkOffBoard =function(num, i, shipSize){
+    if((num + i) >= 8 && num==8 && shipSize ==2){ //for patrolBoat
+        return num - i;
+    }else if((num + i) >= 8 && num==7 && shipSize ==3){ //for destroyer n submarine
+        return num - i+1;
+    }else if((num + i) >= 8 && num==8 && shipSize ==3){ //for destroyer n submarine
+        return num - i;
+    }else if((num + i) >= 8 && num==6 && shipSize ==4){ //for battleShip
+        return num - i+2;
+    }else if((num + i) >= 8 && num==7 && shipSize ==4){ //for battleShip
+        return num - i+1;
+    }else if((num + i) >= 8 && num==8 && shipSize ==4){ //for battleShip
+        return num - i;
+    }else if((num + i) >= 8 && num==5 && shipSize ==5){ //for carrier
+        return num - i+3;
+    }else if((num + i) >= 8 && num==6 && shipSize ==5){ //for carrier
+        return num - i+2;
+    }else if((num + i) >= 8 && num==7 && shipSize ==5){ //for carrier
+        return num - i+1;
+    }else if((num + i) >= 8 && num==8 && shipSize ==5){ //for carrier
+        return num - i;
+    };
+};
+
+export{lengthObject, numberCoordinate, letterCoordinate, checkOffBoard}

@@ -1,12 +1,21 @@
-import { lengthObject, numberCoordinate, letterCoordinate } from "./utility";
+import { lengthObject, numberCoordinate, letterCoordinate, checkOffBoard } from "./utility";
 
 const playerSide = document.querySelector('.player-side');
 const computerSide = document.querySelector('.computer-side');
 const shipArea = document.querySelector('.ship-area');
+const toggle = document.querySelector('.toggle');
 
 let currentShip = "";
 let alreadyPlacedShip = [];
-let shipDirection = "horizontal";
+let shipDirection = "vertical";
+
+toggle.addEventListener('click', ()=>{
+    toggleShipDirection();
+});
+
+function toggleShipDirection(){
+    shipDirection = shipDirection == "vertical" ? shipDirection = "horizontal" : shipDirection = "vertical";
+};
 
 function renderHumanBoard(boardObj){
     Object.keys(boardObj).forEach(coordKey =>{
@@ -71,34 +80,30 @@ function selectSurroundingAreas(cell, shipSize){
     let arrayOfCoords = [];
     arrayOfCoords.push(numberCoord);
     //horizontal logic:
-    for(let i=1; i<shipSize; i++){
-        let newCoordFirst = numberCoord[0];
-        let newCoordLast = Number(numberCoord[1]) + i;
-        if((Number(numberCoord[1]) + i) <= 8){
-            newCoordLast = Number(numberCoord[1]) + i;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==8 && shipSize ==2){ //for patrolBoat
-            newCoordLast = Number(numberCoord[1]) - i;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==7 && shipSize ==3){ //for destroyer n submarine
-            newCoordLast = Number(numberCoord[1]) - i+1;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==8 && shipSize ==3){ //for destroyer n submarine
-            newCoordLast = Number(numberCoord[1]) - i;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==6 && shipSize ==4){ //for battleShip
-            newCoordLast = Number(numberCoord[1]) - i+2;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==7 && shipSize ==4){ //for battleShip
-            newCoordLast = Number(numberCoord[1]) - i+1;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==8 && shipSize ==4){ //for battleShip
-            newCoordLast = Number(numberCoord[1]) - i;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==5 && shipSize ==5){ //for carrier
-            newCoordLast = Number(numberCoord[1]) - i+3;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==6 && shipSize ==5){ //for carrier
-            newCoordLast = Number(numberCoord[1]) - i+2;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==7 && shipSize ==5){ //for carrier
-            newCoordLast = Number(numberCoord[1]) - i+1;
-        }else if((Number(numberCoord[1]) + i) >= 8 && numberCoord[1]==8 && shipSize ==5){ //for carrier
-            newCoordLast = Number(numberCoord[1]) - i;
-        };
-        let newCoord = newCoordFirst + newCoordLast;
-        arrayOfCoords.push(newCoord);
+    if(shipDirection == "horizontal"){
+        for(let i=1; i<shipSize; i++){
+            let newCoordFirst = numberCoord[0];
+            let newCoordLast = Number(numberCoord[1]) + i;
+            if((Number(numberCoord[1]) + i) <= 8){
+                newCoordLast = Number(numberCoord[1]) + i;
+            }else if(Number(numberCoord[1] + i) > 8){
+                newCoordLast = checkOffBoard(Number(numberCoord[1]), i, shipSize)
+            };
+            let newCoord = newCoordFirst + newCoordLast;
+            arrayOfCoords.push(newCoord);
+        };   
+    }else if(shipDirection == "vertical"){
+        for(let i=1; i<shipSize; i++){
+            let newCoordFirst = Number(numberCoord[0]) + i;
+            let newCoordLast = numberCoord[1];
+            if((Number(numberCoord[0]) + i) <= 8){
+                newCoordFirst = Number(numberCoord[0]) + i;
+            }else if(Number(numberCoord[0] + i) > 8){
+                newCoordFirst = checkOffBoard(Number(numberCoord[0]), i, shipSize)
+            };
+            let newCoord = newCoordFirst + newCoordLast;
+            arrayOfCoords.push(newCoord);
+        };  
     };
     const newArray = arrayOfCoords.map(each => letterCoordinate(each));
     return newArray
