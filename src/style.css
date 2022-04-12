@@ -73,23 +73,23 @@ body{
 }
 
 .player-side > .patrolBoat{
-  background-color: bisque;
+  background: linear-gradient(rgb(247, 234, 137), rgb(169, 133, 213));
 }
 
 .player-side > .carrier{
-  background-color: bisque;
+  background: linear-gradient(rgb(119, 87, 87), rgb(44, 44, 67));
 }
 
 .player-side > .battleship{
-  background-color: bisque;
+  background: linear-gradient(rgb(188, 154, 126), rgb(84, 84, 183));
 }
 
 .player-side > .destroyer{
-  background-color: bisque;
+  background: linear-gradient(rgb(245, 165, 94), rgb(123, 87, 150));
 }
 
 .player-side > .submarine{
-  background-color: bisque;
+  background: linear-gradient(rgb(108, 52, 52), rgb(153, 153, 236));
 }
 
 .player-side > .hit{

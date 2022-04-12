@@ -7,7 +7,7 @@ const toggle = document.querySelector('.toggle');
 
 let currentShip = "";
 let alreadyPlacedShip = [];
-let shipDirection = "vertical";
+let shipDirection = "horizontal";
 
 toggle.addEventListener('click', ()=>{
     toggleShipDirection();
@@ -25,6 +25,7 @@ function renderHumanBoard(boardObj){
         cell.setAttribute('data-coordinate', coordKey);
         cell.addEventListener('mouseover', (e)=> shipAreaSelection(e.target));
         cell.addEventListener('mouseleave', (e)=>shipAreaSelectionRemoval(e.target));
+        cell.addEventListener('click', (e)=>placeShipDOM(e.target));
         playerSide.appendChild(cell);
     });
 };
@@ -79,7 +80,6 @@ function selectSurroundingAreas(cell, shipSize){
     const numberCoord = numberCoordinate(cell);
     let arrayOfCoords = [];
     arrayOfCoords.push(numberCoord);
-    //horizontal logic:
     if(shipDirection == "horizontal"){
         for(let i=1; i<shipSize; i++){
             let newCoordFirst = numberCoord[0];
@@ -118,6 +118,28 @@ function shipChoose(e){
         return false
     };
     currentShip = e.target.className;
+};
+
+function placeShipDOM(cell){
+    const currentLength = lengthObject[currentShip];
+    if(currentLength>1 && currentLength<6){
+        let array = selectSurroundingAreas(cell, currentLength);
+        if(!array.some(checkForBoats)){
+            insertShip(array);
+            shipAreaSelectionRemoval(cell);
+            alreadyPlacedShip.push(currentShip);
+            currentShip = "";
+        };     
+    };  
+};
+function checkForBoats(coord){
+    return document.querySelector(`[data-coordinate=${coord}]`).className.length > 14
+};
+
+function insertShip(array){
+    array.forEach(coord=> {
+        document.querySelector(`[data-coordinate=${coord}]`).classList.add(`${currentShip}`);
+    });
 };
 
 
