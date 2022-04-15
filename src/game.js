@@ -1,5 +1,5 @@
 import {computerFactory, humanFactory} from './players.js';
-import{renderComputerBoard, renderHumanBoard, renderHumanShips} from './DOM.js';
+import{pcBoardEvListeners, renderComputerBoard, renderHumanBoard, renderHumanShips, randomShips} from './DOM.js';
 
 function gameMaker(playerName){
     const humanPlayer = humanFactory(playerName);
@@ -10,7 +10,13 @@ function gameMaker(playerName){
     return {humanPlayer, AI};
 };
 
-const players = gameMaker('pepe')
+function startGame(playerName){
+    const players = gameMaker(playerName);
+    pcBoardEvListeners(players);
+    randomShips(players);
+};
 
+
+startGame('player name')
 
 export{gameMaker}

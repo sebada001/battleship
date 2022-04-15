@@ -1,5 +1,6 @@
 import { shipFactory } from "./ship.js";
 import { renderHumanBoard } from "./DOM.js";
+import { generateRandomCoordinate } from "./utility.js"
 
 const gameBoard = () =>{
     const boardObj = 
@@ -37,23 +38,26 @@ const gameBoard = () =>{
     };
 
     const receiveAttack = (coordinate) =>{
-        if(coordinate != 'water' && !coordinate.includes('hit')){
+        if(boardObj[coordinate] != 'water' && !boardObj[coordinate].includes('hit')){
             ships.forEach(ship => {
                 if(boardObj[coordinate].includes(ship.name)){
                     ship.hit();
                     shipHitMessage(coordinate, ship.name);
                 };
             });
-            hitSpot(coordinate);
-        }else if(coordinate.includes('hit')){
-            return
-        }else{
-            hitSpot(coordinate);
+            hitSpot(coordinate, 'boat');
+        }else if(!boardObj[coordinate].includes('hit')){
+            hitSpot(coordinate, 'water');
         };
     };
 
-    const hitSpot = (coordinate) =>{
-            boardObj[coordinate] += ' hit';
+    const hitSpot = (coordinate, type) =>{
+            if(type == 'boat'){
+                boardObj[coordinate] += ' hit';
+            }else if(type == 'water'){
+                boardObj[coordinate] += ' hit miss';
+            }
+            
     };
 
     const returnBoard = () =>{

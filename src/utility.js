@@ -64,4 +64,11 @@ const checkOffBoard =function(num, i, shipSize){
     };
 };
 
-export{lengthObject, numberCoordinate, letterCoordinate, checkOffBoard}
+const generateRandomCoordinate = function(){
+    const number1 = Math.floor(Math.random()*(8-1+1)+1);
+    const number2 = Math.floor(Math.random()*(8-1+1)+1);
+    const letter = numberToLetter[number1];
+    return letter + number2.toString()
+}
+
+export{lengthObject, numberCoordinate, letterCoordinate, checkOffBoard, generateRandomCoordinate}

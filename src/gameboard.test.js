@@ -1,5 +1,9 @@
 import { gameBoard } from "./gameboard.js";
 
+/**
+ * @jest-environment jsdom
+ */
+
 const board = gameBoard();
 
 test('gameboard-basic 1', () => {

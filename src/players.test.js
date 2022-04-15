@@ -8,7 +8,7 @@ function tester(p){
 };
 
 function tester2(p){
-    p.turnSwitch(p);
+    p.myTurnSwitch(p);
     return p.myTurn;
 };
 

@@ -110,8 +110,45 @@ body{
   background-color: rgb(246, 243, 243);
 }
 
+.computer-side > div:hover{
+  cursor: crosshair;
+}
+
+.computer-side > .hit:hover{
+  cursor: crosshair;
+}
+
+.computer-side > .hit{
+  background-color: red;
+  scale: 0.90;
+}
+
 
 .selected{
   background-color: orange !important;
 }
 
+
+/* .computer-side > .patrolBoat{
+  background: linear-gradient(rgb(247, 234, 137), rgb(169, 133, 213));
+}
+
+.computer-side > .carrier{
+  background: linear-gradient(rgb(119, 87, 87), rgb(44, 44, 67));
+}
+
+.computer-side > .battleship{
+  background: linear-gradient(rgb(188, 154, 126), rgb(84, 84, 183));
+}
+
+.computer-side > .destroyer{
+  background: linear-gradient(rgb(245, 165, 94), rgb(123, 87, 150));
+}
+
+.computer-side > .submarine{
+  background: linear-gradient(rgb(108, 52, 52), rgb(153, 153, 236));
+} */
+
+.miss{
+  background-color: rgba(179, 170, 170, 0.874) !important;
+}

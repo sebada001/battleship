@@ -1,13 +1,71 @@
 import { lengthObject, numberCoordinate, letterCoordinate, checkOffBoard } from "./utility";
+import { generateRandomCoordinate } from "./utility";
 
 const playerSide = document.querySelector('.player-side');
 const computerSide = document.querySelector('.computer-side');
 const shipArea = document.querySelector('.ship-area');
 const toggle = document.querySelector('.toggle');
 
+
 let currentShip = "";
-let alreadyPlacedShip = [];
+let alreadyPlacedShipHuman = [];
+let alreadyPlacedShipAI = [];
 let shipDirection = "horizontal";
+let bool = false;
+
+function pcBoardEvListeners(players){
+    const pcBoard = [...computerSide.children];
+    pcBoard.forEach(cell =>{
+        cell.addEventListener('click', (e)=>attackAttempt(e.target, players));
+    });
+};
+
+const randomShips = function(players){
+    const ships = players.AI.myBoard.returnShips();
+    for(let i = 0; i<ships.length; i++){
+        let coord = generateRandomCoordinate();
+        const cell = computerSide.querySelector(`[data-coordinate=${coord}]`);
+        let length = ships[i].length;
+        placeShipsRandomlyDOM(cell, length, ships[i].name, i, players);
+        while(bool == false && alreadyPlacedShipAI.length<5){
+            let newCoord = generateRandomCoordinate();
+            let newCell = computerSide.querySelector(`[data-coordinate=${newCoord}]`);
+            placeShipsRandomlyDOM(newCell, length, ships[i].name, i, players);
+            alreadyPlacedShipAI.push(ships[i].name);
+        }
+    };
+};
+
+function placeShipsRandomlyDOM(cell, length, ship, index, players){
+    bool = false;
+    if(length>1 && length<6){
+        let array = selectSurroundingAreas(cell, length);
+        if(!array.some(checkForBoatsRandom)){
+            insertShipRandom(array, index, players);
+            bool = true;
+        };
+    };
+};
+
+function checkForBoatsRandom(coord){
+    return computerSide.querySelector(`[data-coordinate=${coord}]`).className.length > 12
+};
+
+function insertShipRandom(array,index,players){
+    players.AI.myBoard.placeShip(array, index)
+};
+
+function attackAttempt(cell, players){
+    if(alreadyPlacedShipHuman.length==0){ //check for boats placed for game start
+        if(players.humanPlayer.showTurn()==true){
+            players.AI.myBoard.receiveAttack(`${cell.dataset.coordinate}`);
+            cell.className = players.AI.myBoard.returnBoard()[cell.dataset.coordinate];
+            console.log(players.humanPlayer.showTurn())
+            players.humanPlayer.myTurnSwitch(players.humanPlayer);
+            console.log(players.humanPlayer.showTurn())
+        };
+    };
+};
 
 toggle.addEventListener('click', ()=>{
     toggleShipDirection();
@@ -16,6 +74,7 @@ toggle.addEventListener('click', ()=>{
 function toggleShipDirection(){
     shipDirection = shipDirection == "vertical" ? shipDirection = "horizontal" : shipDirection = "vertical";
 };
+
 
 function renderHumanBoard(boardObj){
     Object.keys(boardObj).forEach(coordKey =>{
@@ -66,13 +125,13 @@ function shipAreaSelectionRemoval(cell){
 
 function drawSurroundingAreas(array){
     array.forEach(coord=> {
-        document.querySelector(`[data-coordinate=${coord}]`).classList.add('selected');
+        playerSide.querySelector(`[data-coordinate=${coord}]`).classList.add('selected');
     });
 };
 
 function removeSurroundingAreas(array){
     array.forEach(coord=> {
-        document.querySelector(`[data-coordinate=${coord}]`).classList.remove('selected');
+        playerSide.querySelector(`[data-coordinate=${coord}]`).classList.remove('selected');
     });
 };
 
@@ -105,6 +164,7 @@ function selectSurroundingAreas(cell, shipSize){
             arrayOfCoords.push(newCoord);
         };  
     };
+    
     const newArray = arrayOfCoords.map(each => letterCoordinate(each));
     return newArray
 };
@@ -114,7 +174,7 @@ shipArea.addEventListener('click', (e)=>{shipChoose(e)});
 function shipChoose(e){
     if(e.target.className == "ship-area"){
         return false
-    }else if(alreadyPlacedShip.includes(e.target.className)){
+    }else if(alreadyPlacedShipHuman.includes(e.target.className)){
         return false
     };
     currentShip = e.target.className;
@@ -127,20 +187,21 @@ function placeShipDOM(cell){
         if(!array.some(checkForBoats)){
             insertShip(array);
             shipAreaSelectionRemoval(cell);
-            alreadyPlacedShip.push(currentShip);
+            alreadyPlacedShipHuman.push(currentShip);
             currentShip = "";
         };     
     };  
 };
+
 function checkForBoats(coord){
-    return document.querySelector(`[data-coordinate=${coord}]`).className.length > 14
+    return playerSide.querySelector(`[data-coordinate=${coord}]`).className.length > 14
 };
 
 function insertShip(array){
     array.forEach(coord=> {
-        document.querySelector(`[data-coordinate=${coord}]`).classList.add(`${currentShip}`);
+        playerSide.querySelector(`[data-coordinate=${coord}]`).classList.add(`${currentShip}`);
     });
 };
 
 
-export { renderHumanBoard, renderComputerBoard, renderHumanShips };
+export { renderHumanBoard, renderComputerBoard, renderHumanShips, pcBoardEvListeners, randomShips };

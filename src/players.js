@@ -3,19 +3,20 @@ import { gameBoard } from "./gameboard.js";
 const humanFactory = (name) =>{
     let myTurn = true;
     let myBoard = gameBoard();
-    const turnSwitch = (player) => myTurnSwitch(player);
+    // const turnSwitch = (player) => myTurnSwitch(player);
     const showTurn = () => myTurn;
-    return {myBoard, turnSwitch, name, showTurn}
+    const myTurnSwitch = (player) =>player.myTurn = player.myTurn == false ? player.myTurn = true : player.myTurn = false;
+    return {myBoard, myTurnSwitch, name, showTurn}
 };
 
 const computerFactory = () =>{
     let myTurn = false;
     let myBoard = gameBoard();
     let movePool = getMovePool();
-    const turnSwitch = (player)=> myTurnSwitch(player);
+    // const turnSwitch = (player)=> myTurnSwitch(player);
     const nextMove = (movePool, computerObj)=> computerMoveAI(movePool, computerObj);
     const showTurn = () => myTurn;
-    return {turnSwitch, nextMove, showTurn, myBoard, movePool }
+    return { nextMove, showTurn, myBoard, movePool }
 };
 
 function computerMoveAI(movePool, self){
@@ -46,8 +47,6 @@ function getRandomNumberBetween(min,max){
     return Math.floor(Math.random()*(max-min+1)+min);
 };
 
-function myTurnSwitch(player){
-    player.myTurn = player.myTurn == false ? player.myTurn = true : player.myTurn = false;
-};
+
 
 export {computerFactory, computerMoveAI, humanFactory}
