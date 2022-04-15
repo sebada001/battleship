@@ -60,9 +60,7 @@ function attackAttempt(cell, players){
         if(players.humanPlayer.showTurn()==true){
             players.AI.myBoard.receiveAttack(`${cell.dataset.coordinate}`);
             cell.className = players.AI.myBoard.returnBoard()[cell.dataset.coordinate];
-            console.log(players.humanPlayer.showTurn())
             players.humanPlayer.myTurnSwitch(players.humanPlayer);
-            console.log(players.humanPlayer.showTurn())
         };
     };
 };

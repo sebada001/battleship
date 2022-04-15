@@ -1,5 +1,5 @@
 import { shipFactory } from "./ship.js";
-import { renderHumanBoard } from "./DOM.js";
+// import { renderHumanBoard } from "./DOM.js";
 import { generateRandomCoordinate } from "./utility.js"
 
 const gameBoard = () =>{

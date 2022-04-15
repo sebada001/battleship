@@ -9,7 +9,7 @@ function tester(p){
 
 function tester2(p){
     p.myTurnSwitch(p);
-    return p.myTurn;
+    return p.showTurn();
 };
 
 test('switch turn 1', () => {

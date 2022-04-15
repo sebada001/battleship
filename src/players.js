@@ -3,20 +3,20 @@ import { gameBoard } from "./gameboard.js";
 const humanFactory = (name) =>{
     let myTurn = true;
     let myBoard = gameBoard();
-    // const turnSwitch = (player) => myTurnSwitch(player);
     const showTurn = () => myTurn;
-    const myTurnSwitch = (player) =>player.myTurn = player.myTurn == false ? player.myTurn = true : player.myTurn = false;
+    const myTurnSwitch = (player) =>{
+        myTurn = myTurn == false ? myTurn = true : myTurn = false;
+        // console.log(player.myTurn)
+        }
+    ;
     return {myBoard, myTurnSwitch, name, showTurn}
 };
 
 const computerFactory = () =>{
-    let myTurn = false;
     let myBoard = gameBoard();
     let movePool = getMovePool();
-    // const turnSwitch = (player)=> myTurnSwitch(player);
     const nextMove = (movePool, computerObj)=> computerMoveAI(movePool, computerObj);
-    const showTurn = () => myTurn;
-    return { nextMove, showTurn, myBoard, movePool }
+    return { nextMove, myBoard, movePool }
 };
 
 function computerMoveAI(movePool, self){

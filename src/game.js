@@ -17,6 +17,6 @@ function startGame(playerName){
 };
 
 
-startGame('player name')
+startGame('playername')
 
 export{gameMaker}
