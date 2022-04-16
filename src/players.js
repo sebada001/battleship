@@ -1,14 +1,11 @@
 import { gameBoard } from "./gameboard.js";
+import { generateRandomCoordinate } from "./utility.js";
 
 const humanFactory = (name) =>{
     let myTurn = true;
     let myBoard = gameBoard();
     const showTurn = () => myTurn;
-    const myTurnSwitch = (player) =>{
-        myTurn = myTurn == false ? myTurn = true : myTurn = false;
-        // console.log(player.myTurn)
-        }
-    ;
+    const myTurnSwitch = (player) =>myTurn = myTurn == false ? myTurn = true : myTurn = false;
     return {myBoard, myTurnSwitch, name, showTurn}
 };
 

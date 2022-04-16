@@ -1,23 +1,24 @@
 import { lengthObject, numberCoordinate, letterCoordinate, checkOffBoard } from "./utility";
-import { generateRandomCoordinate } from "./utility";
+import { generateRandomCoordinate, indexCheck } from "./utility";
 
 const playerSide = document.querySelector('.player-side');
 const computerSide = document.querySelector('.computer-side');
 const shipArea = document.querySelector('.ship-area');
 const toggle = document.querySelector('.toggle');
 
-
 let currentShip = "";
 let alreadyPlacedShipHuman = [];
 let alreadyPlacedShipAI = [];
 let shipDirection = "horizontal";
 let bool = false;
+const clickEvent = new Event('click');
 
 function pcBoardEvListeners(players){
     const pcBoard = [...computerSide.children];
     pcBoard.forEach(cell =>{
         cell.addEventListener('click', (e)=>attackAttempt(e.target, players));
     });
+    computerSide.style.display = "none";
 };
 
 const randomShips = function(players){
@@ -33,6 +34,7 @@ const randomShips = function(players){
             placeShipsRandomlyDOM(newCell, length, ships[i].name, i, players);
             alreadyPlacedShipAI.push(ships[i].name);
         }
+        toggle.dispatchEvent(clickEvent);
     };
 };
 
@@ -56,14 +58,20 @@ function insertShipRandom(array,index,players){
 };
 
 function attackAttempt(cell, players){
-    if(alreadyPlacedShipHuman.length==0){ //check for boats placed for game start
         if(players.humanPlayer.showTurn()==true){
             players.AI.myBoard.receiveAttack(`${cell.dataset.coordinate}`);
             cell.className = players.AI.myBoard.returnBoard()[cell.dataset.coordinate];
-            players.humanPlayer.myTurnSwitch(players.humanPlayer);
+            computerStrikesBack(players);
         };
-    };
 };
+
+function computerStrikesBack(players){
+    setTimeout(() => {
+        const move = players.AI.nextMove(players.AI.movePool, players.AI);
+        players.humanPlayer.myBoard.receiveAttack(move);
+        playerSide.querySelector(`[data-coordinate=${move}]`).className = players.humanPlayer.myBoard.returnBoard()[move];
+    }, 300);
+}
 
 toggle.addEventListener('click', ()=>{
     toggleShipDirection();
@@ -74,7 +82,7 @@ function toggleShipDirection(){
 };
 
 
-function renderHumanBoard(boardObj){
+function renderHumanBoard(boardObj, humanPlayer){
     Object.keys(boardObj).forEach(coordKey =>{
         const cell = document.createElement('div');
         const coordinateTerrainArr = boardObj[coordKey].split(" ");
@@ -82,7 +90,7 @@ function renderHumanBoard(boardObj){
         cell.setAttribute('data-coordinate', coordKey);
         cell.addEventListener('mouseover', (e)=> shipAreaSelection(e.target));
         cell.addEventListener('mouseleave', (e)=>shipAreaSelectionRemoval(e.target));
-        cell.addEventListener('click', (e)=>placeShipDOM(e.target));
+        cell.addEventListener('click', (e)=>placeShipDOM(e.target, humanPlayer));
         playerSide.appendChild(cell);
     });
 };
@@ -178,7 +186,7 @@ function shipChoose(e){
     currentShip = e.target.className;
 };
 
-function placeShipDOM(cell){
+function placeShipDOM(cell, humanPlayer){
     const currentLength = lengthObject[currentShip];
     if(currentLength>1 && currentLength<6){
         let array = selectSurroundingAreas(cell, currentLength);
@@ -186,7 +194,11 @@ function placeShipDOM(cell){
             insertShip(array);
             shipAreaSelectionRemoval(cell);
             alreadyPlacedShipHuman.push(currentShip);
+            humanPlayer.myBoard.placeShip(array, indexCheck[currentShip]);
             currentShip = "";
+            if(alreadyPlacedShipHuman.length ==5){ //game starts
+                computerSide.style.display = "flex";
+            };
         };     
     };  
 };
@@ -202,4 +214,4 @@ function insertShip(array){
 };
 
 
-export { renderHumanBoard, renderComputerBoard, renderHumanShips, pcBoardEvListeners, randomShips };
+export { renderHumanBoard, renderComputerBoard, renderHumanShips, pcBoardEvListeners, randomShips, alreadyPlacedShipHuman };

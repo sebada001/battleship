@@ -1,10 +1,10 @@
 import {computerFactory, humanFactory} from './players.js';
-import{pcBoardEvListeners, renderComputerBoard, renderHumanBoard, renderHumanShips, randomShips} from './DOM.js';
+import{pcBoardEvListeners, renderComputerBoard, renderHumanBoard, renderHumanShips, randomShips, alreadyPlacedShipHuman} from './DOM.js';
 
 function gameMaker(playerName){
     const humanPlayer = humanFactory(playerName);
     const AI = computerFactory();
-    renderHumanBoard(humanPlayer.myBoard.returnBoard());
+    renderHumanBoard(humanPlayer.myBoard.returnBoard(), humanPlayer);
     renderComputerBoard(AI.myBoard.returnBoard());
     renderHumanShips(humanPlayer.myBoard.returnShips());
     return {humanPlayer, AI};

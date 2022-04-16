@@ -6,6 +6,14 @@ const lengthObject = {
     'patrolBoat': 2,
 };
 
+const indexCheck = {
+    'carrier': 0,
+    'battleship': 1,
+    'destroyer': 2,
+    'submarine': 3,
+    'patrolBoat': 4,
+}
+
 const letterToNumber = {
     'A': 1,
     'B': 2,
@@ -71,4 +79,4 @@ const generateRandomCoordinate = function(){
     return letter + number2.toString()
 }
 
-export{lengthObject, numberCoordinate, letterCoordinate, checkOffBoard, generateRandomCoordinate}
+export{lengthObject, numberCoordinate, letterCoordinate, checkOffBoard, generateRandomCoordinate, indexCheck}

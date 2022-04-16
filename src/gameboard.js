@@ -42,7 +42,7 @@ const gameBoard = () =>{
             ships.forEach(ship => {
                 if(boardObj[coordinate].includes(ship.name)){
                     ship.hit();
-                    shipHitMessage(coordinate, ship.name);
+                    console.log(shipHitMessage(coordinate, ship.name));
                 };
             });
             hitSpot(coordinate, 'boat');
