@@ -30,12 +30,12 @@ const randomShips = function(players){
     for(let i = 0; i<ships.length; i++){
         let coord = generateRandomCoordinate();
         const cell = computerSide.querySelector(`[data-coordinate=${coord}]`);
-        let length = ships[i].length;
-        placeShipsRandomlyDOM(cell, length, ships[i].name, i, players);
+        let length = ships[i].showLength();
+        placeShipsRandomlyDOM(cell, length, ships[i].showName(), i, players);
         while(bool == false && alreadyPlacedShipAI.length<5){
             let newCoord = generateRandomCoordinate();
             let newCell = computerSide.querySelector(`[data-coordinate=${newCoord}]`);
-            placeShipsRandomlyDOM(newCell, length, ships[i].name, i, players);
+            placeShipsRandomlyDOM(newCell, length, ships[i].showName(), i, players);
         };
         toggle.dispatchEvent(clickEvent);
     };
@@ -124,8 +124,8 @@ function renderComputerBoard(obj){
 function renderHumanShips(arr){
     arr.forEach(ship =>{
         const shipDiv = document.createElement('div');
-        shipDiv.classList.add(ship.name);
-        shipDiv.textContent = ship.name;
+        shipDiv.classList.add(ship.showName());
+        shipDiv.textContent = ship.showName();
         shipArea.appendChild(shipDiv);
     });
 };
