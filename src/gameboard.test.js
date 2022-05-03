@@ -15,7 +15,7 @@ test('gameboard-basic 2', () => {
 });
 
 test('ships for board', () => {
-    expect(board.returnShips()['4'].name).toBe('patrolBoat');
+    expect(board.returnShips()['4'].showName()).toBe('patrolBoat');
 });
 
 board.placeShip(['C2', 'C3'], 4);
@@ -34,7 +34,7 @@ test('taken spot ship', () =>{
 
 function attackMock(){
     board.receiveAttack('C2');
-    board.receiveAttack('C3');
+    // 
     return board.returnBoard()['C2']
 };
 
@@ -43,7 +43,7 @@ test('hitSpot on board', ()=>{
 });
 
 test('receive attack', ()=>{
-    expect(board.returnShips()[4].showHits()).toBe(2);
+    expect(board.returnShips()[4].showHits()).toBe(1);
 });
 
 test('allSunk false', () =>{
@@ -63,6 +63,7 @@ function attackMock2(){
     board.receiveAttack('B1');
     board.receiveAttack('B2');
     board.receiveAttack('B3');
+    board.receiveAttack('C3');
     board.receiveAttack('B4');
     board.receiveAttack('D1');
     board.receiveAttack('D2');

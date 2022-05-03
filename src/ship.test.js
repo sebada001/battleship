@@ -4,11 +4,11 @@ const patrolBoat = shipFactory(2, 'patrolBoat');
 const submarine = shipFactory(3, 'submarine');
 
 test('ship length', () => {
-    expect(patrolBoat.length).toBe(2);
+    expect(patrolBoat.showLength()).toBe(2);
 });
 
 test('ship name', () => {
-    expect(patrolBoat.name).toBe('patrolBoat');
+    expect(patrolBoat.showName()).toBe('patrolBoat');
 });
 
 function checkHits(){

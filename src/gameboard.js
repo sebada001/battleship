@@ -24,7 +24,7 @@ const gameBoard = () =>{
         let warning = '';
         coordinates.forEach(coord => {
             if(boardObj[coord] == 'water') {
-                boardObj[coord] += (' ' +ships[shipIndex].name);
+                boardObj[coord] += (' ' +ships[shipIndex].showName());
             }else{
                 warning = 'repeated spot';
             }
@@ -38,12 +38,12 @@ const gameBoard = () =>{
     const receiveAttack = (coordinate) =>{
         if(boardObj[coordinate] != 'water' && !boardObj[coordinate].includes('hit')){
             ships.forEach(ship => {
-                if(boardObj[coordinate].includes(ship.name)){
+                if(boardObj[coordinate].includes(ship.showName())){
                     ship.hit();
                     hitSpot(coordinate, 'boat');
                     if(ship.showSunk()){
                         for(const property in boardObj){
-                            if(boardObj[property].includes(ship.name)){
+                            if(boardObj[property].includes(ship.showName())){
                                 boardObj[property] += ' sunk';
                             };
                         };
