@@ -79,4 +79,10 @@ const generateRandomCoordinate = function(){
     return letter + number2.toString()
 }
 
-export{lengthObject, numberCoordinate, letterCoordinate, checkOffBoard, generateRandomCoordinate, indexCheck}
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+export{lengthObject, numberCoordinate, letterCoordinate, checkOffBoard, generateRandomCoordinate, indexCheck, removeAllChildNodes}

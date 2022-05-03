@@ -1,14 +1,31 @@
+import { newGame } from "./game";
 import { lengthObject, numberCoordinate, letterCoordinate, checkOffBoard } from "./utility";
-import { generateRandomCoordinate, indexCheck } from "./utility";
+import { generateRandomCoordinate, indexCheck, removeAllChildNodes } from "./utility";
+
+//win message area
+const greyOut = document.createElement('div');
+const popUp = document.createElement('div');
+const okButton = document.createElement('button');
+const endMessage = document.createElement('h1');
+endMessage.classList.add('end');
+endMessage.textContent = "Ya won bud";
+okButton.classList.add('ok');
+okButton.textContent = "Ok, restart";
+popUp.append(endMessage, okButton);
+greyOut.classList.add('grey-out');
+popUp.classList.add('pop-up');
+document.body.append(greyOut, popUp);
+okButton.addEventListener('click', ()=>{
+    greyOut.style.display = "none";
+    popUp.style.display = "none";
+    newGame();
+});
+//
 
 const playerSide = document.querySelector('.player-side');
 const computerSide = document.querySelector('.computer-side');
 const shipArea = document.querySelector('.ship-area');
 const toggle = document.querySelector('.toggle');
-
-//current bug:
-
-// computer placed ships can be placed on top of each other accidentally
 
 let currentShip = "";
 let alreadyPlacedShipHuman = [];
@@ -16,6 +33,10 @@ let alreadyPlacedShipAI = [];
 let shipDirection = "horizontal";
 let bool = false;
 const clickEvent = new Event('click');
+
+const updateShips = function(){
+    alreadyPlacedShipHuman.forEach(ship => document.querySelector(`.ship-area .${ship}`).classList.add('chosen'));
+};
 
 function pcBoardEvListeners(players){
     const pcBoard = [...computerSide.children];
@@ -71,6 +92,11 @@ function attackAttempt(cell, players){
                     newCell.classList.add('sunk');
                 };
             };
+            if(players.AI.myBoard.allSunk()){
+                endMessage.textContent = "Ya won bud";
+                greyOut.style.display = "flex";
+                popUp.style.display = "flex";
+            };
             computerStrikesBack(players);
         };
 };
@@ -85,6 +111,11 @@ function computerStrikesBack(players){
                 let newCell = playerSide.querySelector(`[data-coordinate=${Object.keys(players.humanPlayer.myBoard.returnBoard())[i]}]`);
                 newCell.classList.add('sunk');
             };
+        };
+        if(players.humanPlayer.myBoard.allSunk()){
+            endMessage.textContent = "Ya lost bud";
+            greyOut.style.display = "flex";
+            popUp.style.display = "flex";
         };
     }, 300);
 }
@@ -212,6 +243,7 @@ function placeShipDOM(cell, humanPlayer){
             alreadyPlacedShipHuman.push(currentShip);
             humanPlayer.myBoard.placeShip(array, indexCheck[currentShip]);
             currentShip = "";
+            updateShips();
             if(alreadyPlacedShipHuman.length ==5){ //game starts
                 computerSide.style.display = "flex";
             };
@@ -229,5 +261,18 @@ function insertShip(array){
     });
 };
 
+const restartGame = function(){
+   removeAllChildNodes(playerSide);
+   removeAllChildNodes(computerSide);
+   removeAllChildNodes(shipArea);
+   currentShip = "";
+   alreadyPlacedShipHuman = [];
+   alreadyPlacedShipAI = [];
+   shipDirection = "horizontal";
+   bool = false;
+};
 
-export { renderHumanBoard, renderComputerBoard, renderHumanShips, pcBoardEvListeners, randomShips, alreadyPlacedShipHuman };
+
+
+
+export { renderHumanBoard, renderComputerBoard, renderHumanShips, pcBoardEvListeners, randomShips, alreadyPlacedShipHuman, restartGame };
