@@ -6,6 +6,10 @@ const computerSide = document.querySelector('.computer-side');
 const shipArea = document.querySelector('.ship-area');
 const toggle = document.querySelector('.toggle');
 
+//current bug:
+
+// computer placed ships can be placed on top of each other accidentally
+
 let currentShip = "";
 let alreadyPlacedShipHuman = [];
 let alreadyPlacedShipAI = [];
@@ -32,25 +36,25 @@ const randomShips = function(players){
             let newCoord = generateRandomCoordinate();
             let newCell = computerSide.querySelector(`[data-coordinate=${newCoord}]`);
             placeShipsRandomlyDOM(newCell, length, ships[i].name, i, players);
-            alreadyPlacedShipAI.push(ships[i].name);
-        }
+        };
         toggle.dispatchEvent(clickEvent);
     };
 };
 
 function placeShipsRandomlyDOM(cell, length, ship, index, players){
     bool = false;
-    if(length>1 && length<6){
-        let array = selectSurroundingAreas(cell, length);
-        if(!array.some(checkForBoatsRandom)){
-            insertShipRandom(array, index, players);
-            bool = true;
-        };
+    let array = selectSurroundingAreas(cell, length);
+    if(checkForBoatsRandom(players, array)){
+        insertShipRandom(array, index, players);
+        alreadyPlacedShipAI.push(ship);
+        bool = true;
     };
 };
 
-function checkForBoatsRandom(coord){
-    return computerSide.querySelector(`[data-coordinate=${coord}]`).className.length > 12
+function checkForBoatsRandom(players, array){
+    const checker = (coord) => players.AI.myBoard.returnBoard()[coord].length < 9;
+    let checkVal = array.every(checker);
+    return checkVal;
 };
 
 function insertShipRandom(array,index,players){
@@ -61,6 +65,12 @@ function attackAttempt(cell, players){
         if(players.humanPlayer.showTurn()==true){
             players.AI.myBoard.receiveAttack(`${cell.dataset.coordinate}`);
             cell.className = players.AI.myBoard.returnBoard()[cell.dataset.coordinate];
+            for(let i = 0; i<Object.keys(players.AI.myBoard.returnBoard()).length; i++){
+                if(players.AI.myBoard.returnBoard()[Object.keys(players.AI.myBoard.returnBoard())[i]].includes('sunk')){
+                    let newCell = computerSide.querySelector(`[data-coordinate=${Object.keys(players.AI.myBoard.returnBoard())[i]}]`);
+                    newCell.classList.add('sunk');
+                };
+            };
             computerStrikesBack(players);
         };
 };
@@ -70,6 +80,12 @@ function computerStrikesBack(players){
         const move = players.AI.nextMove(players.AI.movePool, players.AI);
         players.humanPlayer.myBoard.receiveAttack(move);
         playerSide.querySelector(`[data-coordinate=${move}]`).className = players.humanPlayer.myBoard.returnBoard()[move];
+        for(let i = 0; i<Object.keys(players.humanPlayer.myBoard.returnBoard()).length; i++){
+            if(players.humanPlayer.myBoard.returnBoard()[Object.keys(players.humanPlayer.myBoard.returnBoard())[i]].includes('sunk')){
+                let newCell = playerSide.querySelector(`[data-coordinate=${Object.keys(players.humanPlayer.myBoard.returnBoard())[i]}]`);
+                newCell.classList.add('sunk');
+            };
+        };
     }, 300);
 }
 

@@ -18,6 +18,9 @@ const shipFactory = (length, name) =>{
         };
     };
     return{length, name, hit, isSunk, showHits, showSunk}
+
+    //set length and name as return functions to keep those values private, affects players.js
 };
 
 export { shipFactory }
+

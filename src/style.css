@@ -131,26 +131,31 @@ body{
 }
 
 
-/* .computer-side > .patrolBoat{
-  background: linear-gradient(rgb(247, 234, 137), rgb(169, 133, 213));
+.computer-side > .patrolBoat{
+  background-color:rgb(84, 84, 183);
 }
 
 .computer-side > .carrier{
-  background: linear-gradient(rgb(119, 87, 87), rgb(44, 44, 67));
+  background-color: green;
 }
 
 .computer-side > .battleship{
-  background: linear-gradient(rgb(188, 154, 126), rgb(84, 84, 183));
+  background-color: orange;
 }
 
 .computer-side > .destroyer{
-  background: linear-gradient(rgb(245, 165, 94), rgb(123, 87, 150));
+  background-color:rgb(143, 233, 203);
 }
 
 .computer-side > .submarine{
-  background: linear-gradient(rgb(108, 52, 52), rgb(153, 153, 236));
-} */
+  background-color: black;
+}
 
 .miss{
   background-color: rgba(179, 170, 170, 0.874) !important;
+}
+
+.sunk{
+  opacity: 0.5 !important;
+  scale: 0.5 !important;
 }
